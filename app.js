@@ -18,6 +18,19 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 })
 
+app.get('/projects.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'projects.html'));
+})
+
+app.get('/projects', (req, res) => {
+  let projects = projectFileList()
+  console.log('found: ' + projects)
+  res.status(200).send({
+    success: true,
+    projects: projects
+  })
+})
+
 app.get('/ganttAjaxController', async(req, res)=>{
   if(req.query.projectId) {
 
@@ -46,11 +59,34 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 //
 function randomFileName() {
-  var dir = './output';
-
+  const dir = './output';
   if (!fs.existsSync(dir)){
       fs.mkdirSync(dir);
   }
   let fileName = Math.random().toString(15).substring(2, 6) + Math.random().toString(15).substring(2, 6);
   return `${dir}/${fileName}.json`
+}
+
+function projectFileList() {
+  const dir = './output';
+
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+  }
+  try {
+    var sorted =  fs.readdirSync(dir).map(function (fileName) {
+      return {
+        name: fileName,
+        time: fs.statSync(dir + '/' + fileName).mtime.getTime()
+      };
+    })
+    .sort(function (a, b) {
+      return a.time - b.time; })
+    .map(function (v) {
+      return v.name; }
+    );
+    return sorted;
+  } catch (e) {
+    throw err;
+  }
 }

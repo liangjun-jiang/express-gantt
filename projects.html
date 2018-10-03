@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  
+    <script type="text/javascript">
+      $(function() {
+        $.getJSON("projects", null, function(response) {
+          console.debug(response);
+          if (response.success) {
+            const ul = $('<ul>').appendTo('body');
+            const projects = response.projects;
+            ul.append(
+              $(document.createElement('li')).html('<a href="index.html">Create a new project</a>')
+            );
+            $(projects).each(function(index, project) {
+                ul.append(
+                  $(document.createElement('li')).html('<a href="index.html?projectId='+project+'">' + project +'</a>')
+                );
+              });
+          }
+        })
+      })
+    </script>
+  </head>
+  <body>
+    
+  </body>
+</html>
