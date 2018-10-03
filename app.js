@@ -7,6 +7,8 @@ const path = require('path');
 const app = express()
 const port = 8080
 
+const OUTPUT_DIR = './output';
+
 app.use('/res', express.static(path.join(__dirname, 'res')));
 app.use('/libs', express.static(path.join(__dirname, 'libs')));
 app.use('/', express.static(path.join(__dirname, '/')));
@@ -24,7 +26,6 @@ app.get('/projects.html', (req, res) => {
 
 app.get('/projects', (req, res) => {
   let projects = projectFileList()
-  console.log('found: ' + projects)
   res.status(200).send({
     success: true,
     projects: projects
@@ -32,14 +33,33 @@ app.get('/projects', (req, res) => {
 })
 
 app.get('/ganttAjaxController', async(req, res)=>{
+  // console.log(req.query.projectId)
   if(req.query.projectId) {
-
+    let fileName = `${req.query.projectId}.json`
+    try {
+      let project = fs.readFileSync(`${OUTPUT_DIR}/${fileName}`);  
+      res.status(200).send({
+        success: true,
+        project: JSON.parse(project)
+      })
+    } catch (e) {
+      res.status(400).send({
+        success: false,
+        message: `Error happened while retrieving data ${JSON.stringify(e)}`
+      })
+    }
   }
 })
 
 
 app.post('/ganttAjaxController', async(req, res) => {
-  fs.writeFile(randomFileName(), JSON.stringify(req.body.prj), (err) => {  
+  let fileName = ''
+  if(req.query.projectId) {
+    fileName = `${req.query.projectId}.json`
+  } else {
+    fileName = randomFileName()
+  }
+  fs.writeFile(fileName, req.body.prj, (err) => {  
     // throws an error, you could also catch it here
     if (err) {
       res.status(400).send({
@@ -59,25 +79,27 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 //
 function randomFileName() {
-  const dir = './output';
-  if (!fs.existsSync(dir)){
-      fs.mkdirSync(dir);
+  
+  if (!fs.existsSync(OUTPUT_DIR)){
+      fs.mkdirSync(OUTPUT_DIR);
   }
   let fileName = Math.random().toString(15).substring(2, 6) + Math.random().toString(15).substring(2, 6);
-  return `${dir}/${fileName}.json`
+  return `${OUTPUT_DIR}/${fileName}.json`
+}
+
+function readFile() {
+  console.log(fs.readFileSync('831b8096.json')) ; 
 }
 
 function projectFileList() {
-  const dir = './output';
-
-  if (!fs.existsSync(dir)){
-    fs.mkdirSync(dir);
+  if (!fs.existsSync(OUTPUT_DIR)){
+    fs.mkdirSync(OUTPUT_DIR);
   }
   try {
-    var sorted =  fs.readdirSync(dir).map(function (fileName) {
+    var sorted =  fs.readdirSync(OUTPUT_DIR).map(function (fileName) {
       return {
         name: fileName,
-        time: fs.statSync(dir + '/' + fileName).mtime.getTime()
+        time: fs.statSync(OUTPUT_DIR + '/' + fileName).mtime.getTime()
       };
     })
     .sort(function (a, b) {

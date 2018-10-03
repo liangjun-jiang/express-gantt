@@ -16,7 +16,7 @@
             );
             $(projects).each(function(index, project) {
                 ul.append(
-                  $(document.createElement('li')).html('<a href="index.html?projectId='+project+'">' + project +'</a>')
+                  $(document.createElement('li')).html('<a href="index.html?projectId='+project.slice(0, -5)+'">' + project.slice(0, -5) +'</a>')
                 );
               });
           }
