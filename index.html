@@ -198,14 +198,30 @@ function saveGanttOnServer() {
     }
   }
 
+  let data = {
+
+  }
+  if (window.location.href.indexOf("?projectId=") != -1){
+    let urlParams = new URLSearchParams(window.location.search);
+    let projectId = urlParams.get('projectId');
+    data = {
+      projectId: projectId,
+      prj: JSON.stringify(prj)
+    }
+  } else {
+    data = {
+      prj: JSON.stringify(prj)
+    }
+  }
+
   $.ajax("ganttAjaxController", {
     dataType:"json",
-    data: {CM:"SVPROJECT",prj:JSON.stringify(prj)},
+    data: data,
     type:"POST",
 
     success: function(response) {
-      if (response.ok) {
-        prof.stop();
+      if (response.success) {
+        // prof.stop();
         if (response.project) {
           ge.loadProject(response.project); //must reload as "tmp_" ids are now the good ones
         } else {
@@ -217,9 +233,9 @@ function saveGanttOnServer() {
           errMsg=errMsg+response.message+"\n";
         }
 
-        if (response.errorMessages.length) {
-          errMsg += response.errorMessages.join("\n");
-        }
+        // if (response.errorMessages.length) {
+        //   errMsg += response.errorMessages.join("\n");
+        // }
 
         alert(errMsg);
       }
@@ -458,7 +474,7 @@ function showBaselineInfo (event,element){
 <div class="__template__" type="GANTBUTTONS"><!--
   <div class="ganttButtonBar noprint">
     <div class="buttons">
-      <a href="https://gantt.twproject.com/"><img src="res/twGanttLogo.png" alt="Twproject" align="absmiddle" style="max-width: 136px; padding-right: 15px"></a>
+      <a href="http://localhost:8080/projects.html"><img src="res/twGanttLogo.png" alt="Twproject" align="absmiddle" style="max-width: 136px; padding-right: 15px"></a>
 
       <button onclick="$('#workSpace').trigger('undo.gantt');return false;" class="button textual icon requireCanWrite" title="undo"><span class="teamworkIcon">&#39;</span></button>
       <button onclick="$('#workSpace').trigger('redo.gantt');return false;" class="button textual icon requireCanWrite" title="redo"><span class="teamworkIcon">&middot;</span></button>

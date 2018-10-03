@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'projects.html'));
 })
 
 app.get('/projects.html', (req, res) => {
@@ -54,8 +54,8 @@ app.get('/ganttAjaxController', async(req, res)=>{
 
 app.post('/ganttAjaxController', async(req, res) => {
   let fileName = ''
-  if(req.query.projectId) {
-    fileName = `${req.query.projectId}.json`
+  if(req.body.projectId) {
+    fileName = `${OUTPUT_DIR}/${req.body.projectId}.json`
   } else {
     fileName = randomFileName()
   }
@@ -69,7 +69,7 @@ app.post('/ganttAjaxController', async(req, res) => {
     } else {
       res.status(200).send({
         success: true,
-        project: req.body.proj
+        project: req.body.prj
       })
     }
   });
