@@ -9,6 +9,8 @@ const port = 8080
 
 const OUTPUT_DIR = './output';
 
+const PROJECT_DIR = './project';
+
 app.use('/res', express.static(path.join(__dirname, 'res')));
 app.use('/libs', express.static(path.join(__dirname, 'libs')));
 app.use('/', express.static(path.join(__dirname, '/')));
@@ -25,11 +27,22 @@ app.get('/projects.html', (req, res) => {
 })
 
 app.post('/project', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  let fileName = randomFileName()
+  let projectName = `${PROJECT_DIR}/${fileName}`
+  fs.writeFile(projectName, JSON.stringify(req.body), (err) => {  
+    if (err) {
+      res.status(400).send({
+        success: true,
+        message: 'Error happened while saving'
+      })
+    } else {
+      res.status(200).sendFile(path.join(__dirname, 'index.html'));
+    }
+  });
 })
 
 app.get('/projects', (req, res) => {
-  let projects = projectFileList()
+  let projects = readProjectList(PROJECT_DIR)
   res.status(200).send({
     success: true,
     projects: projects
@@ -61,7 +74,7 @@ app.post('/ganttAjaxController', async(req, res) => {
   if(req.body.projectId) {
     fileName = `${OUTPUT_DIR}/${req.body.projectId}.json`
   } else {
-    fileName = randomFileName()
+    fileName = ouputFileName()
   }
   fs.writeFile(fileName, req.body.prj, (err) => {  
     // throws an error, you could also catch it here
@@ -82,28 +95,27 @@ app.post('/ganttAjaxController', async(req, res) => {
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 //
-function randomFileName() {
-  
-  if (!fs.existsSync(OUTPUT_DIR)){
-      fs.mkdirSync(OUTPUT_DIR);
+function ouputFileName(dir) {
+  if (!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
   }
+  return `${dir}/${randomFileName()}`
+}
+
+function randomFileName() {
   let fileName = Math.random().toString(15).substring(2, 6) + Math.random().toString(15).substring(2, 6);
-  return `${OUTPUT_DIR}/${fileName}.json`
+  return `${fileName}.json`
 }
 
-function readFile() {
-  console.log(fs.readFileSync('831b8096.json')) ; 
-}
-
-function projectFileList() {
-  if (!fs.existsSync(OUTPUT_DIR)){
-    fs.mkdirSync(OUTPUT_DIR);
+function projectFileList(dir) {
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
   }
   try {
-    var sorted =  fs.readdirSync(OUTPUT_DIR).map(function (fileName) {
+    var sorted =  fs.readdirSync(dir).map(function (fileName) {
       return {
         name: fileName,
-        time: fs.statSync(OUTPUT_DIR + '/' + fileName).mtime.getTime()
+        time: fs.statSync(dir + '/' + fileName).mtime.getTime()
       };
     })
     .sort(function (a, b) {
@@ -115,4 +127,20 @@ function projectFileList() {
   } catch (e) {
     throw err;
   }
+}
+
+function readProjectList(dir) {
+  let elements = []
+  let fileList = projectFileList(dir)
+  fileList.forEach(file => {
+    try {
+      let jsonString = fs.readFileSync(`${dir}/${file}`);
+      let json = JSON.parse(jsonString)
+      json['id'] = file
+      elements.push(json);
+    } catch (e) {
+      throw e;
+    }
+  });
+  return elements;
 }

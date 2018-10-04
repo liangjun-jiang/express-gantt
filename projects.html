@@ -20,18 +20,20 @@
 
       $(function() {
         $.getJSON("projects", null, function(response) {
-          console.debug(response);
           if (response.success) {
-            const ul = $('<ul>').appendTo('body');
+            const section = $('<section class="post">').appendTo('.posts');
             const projects = response.projects;
-            ul.append(
-              $(document.createElement('li')).html('<a href="index.html">Create a new project</a>')
-            );
             $(projects).each(function(index, project) {
-                ul.append(
-                  $(document.createElement('li')).html('<a href="index.html?projectId='+project.slice(0, -5)+'">' + project.slice(0, -5) +'</a>')
+                section.append(
+                    $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id.slice(0, -5)+'">' + project.project_name +'</a></h1>')
                 );
-              });
+                section.append($('</header>'))
+                section.append(
+                    $('<div class="post-description">').html('<p> '+ project.project_description +'</p>')
+                );
+                section.append($('</div>'))
+            });
+            $('</section>').appendTo('.posts');
           }
         })
       })
@@ -54,22 +56,8 @@
 
     <div class="content pure-u-1 pure-u-md-3-4">
         <div>
-            <!-- A wrapper for all the blog posts -->
             <div class="posts">
                 <h1 class="content-subhead">Latest</h1>
-
-                <!-- A single blog post -->
-                <section class="post">
-                    <header class="post-header">
-                        <h2 class="post-title">Introducing Pure</h2>
-                    </header>
-
-                    <div class="post-description">
-                        <p>
-                            Yesterday at CSSConf, we launched Pure – a new CSS library. Phew! Here are the <a href="https://speakerdeck.com/tilomitra/pure-bliss">slides from the presentation</a>. Although it looks pretty minimalist, we’ve been working on Pure for several months. After many iterations, we have released Pure as a set of small, responsive, CSS modules that you can use in every web project.
-                        </p>
-                    </div>
-                </section>
             </div>
 
             <div class="footer">
@@ -89,10 +77,10 @@
         <h1>New Project</h1>
     
         <label for="project-name"><b>Project Name</b></label>
-        <input type="text" placeholder="Enter a project name" name="project-name" required>
+        <input type="text" placeholder="Enter a project name" name="project_name" required>
     
         <label for="psw"><b>Project Description</b></label>
-        <textarea type="text" name="project-description" required rows="9"></textarea>
+        <textarea type="text" name="project_description" required rows="9"></textarea>
     
         <button type="submit" class="btn">Save</button>
         <button type="submit" class="btn cancel" onclick="closeForm()">Cancel</button>
