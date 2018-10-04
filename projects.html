@@ -10,6 +10,14 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   
     <script type="text/javascript">
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+
       $(function() {
         $.getJSON("projects", null, function(response) {
           console.debug(response);
@@ -32,7 +40,7 @@
   <body>
     <nav>
       <a id="logo" href="#"></a>
-      <a href="index.html">Create New Project</a>
+      <a onclick="openForm()">Create New Project</a>
       <a href="tutorial.html">Tutorial</a>  
     </nav>
 
@@ -76,6 +84,19 @@
     </div>
   </div>
 
+    <div class="form-popup" id="myForm">
+        <form action="/action_page.php" class="form-container">
+        <h1>New Project</h1>
     
+        <label for="project-name"><b>Project Name</b></label>
+        <input type="text" placeholder="Enter a project name" name="project-name" required>
+    
+        <label for="psw"><b>Project Description</b></label>
+        <textarea type="text" name="project-description" required rows="9"></textarea>
+    
+        <button type="submit" class="btn">Save</button>
+        <button type="submit" class="btn cancel" onclick="closeForm()">Cancel</button>
+        </form>
+  </div>
   </body>
 </html>
