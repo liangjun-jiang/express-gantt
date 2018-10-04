@@ -24,6 +24,10 @@ app.get('/projects.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'projects.html'));
 })
 
+app.post('/project', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+})
+
 app.get('/projects', (req, res) => {
   let projects = projectFileList()
   res.status(200).send({
