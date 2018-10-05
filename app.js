@@ -54,9 +54,38 @@ app.get('/projects', (req, res) => {
   })
 })
 
+app.post('/tasks', (req, res)=>{
+  console.log(req.body)
+  if(req.body.projectId) {
+    let fileName = `${req.query.projectId}.json`
+    try {
+      if (fs.existsSync(`${OUTPUT_DIR}/${fileName}`)) {
+        let project = fs.readFileSync(); 
+        if (project) { 
+          res.status(200).send({
+            success: true,
+            project: JSON.parse(project)
+          })
+        }
+      } else {
+        console.log('no file exist')
+        res.status(200).send({
+          success: true,
+          message: `Have not created a file yet`
+        })
+      }
+    } catch (e) {
+      res.status(400).send({
+        success: false,
+        message: `Error happened while retrieving data ${JSON.stringify(e)}`
+      })
+    }
+  }
+})
+
 app.get('/ganttAjaxController', (req, res)=>{
-  if(req.query.projectId) {
-    let fileName = `${req.body.projectId}.json`
+  if(req.query.id) {
+    let fileName = `${req.query.id}.json`
     try {
       if (fs.existsSync(`${OUTPUT_DIR}/${fileName}`)) {
         let project = fs.readFileSync(); 

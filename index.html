@@ -156,35 +156,36 @@ function loadGanttFromServer(projectId, callback) {
   //var taskId = $("#taskSelector").val();
   // var prof = new Profiler("loadServerSide");
   // prof.reset();
-  $.ajax("ganttAjaxController", {
+  $.ajax("tasks", {
     dataType:"json",
-    data: {projectId:projectId},
-    type:"GET",
+    data: {'projectId':projectId},
+    type:"POST",
 
     success: function(response) {
       if (response.success) {
         // prof.stop();
         if (response.project) {
-          ge.loadProject(response.project);
-          ge.checkpoint(); //empty the undo stack
+          ge.loadProject(response.project); //must reload as "tmp_" ids are now the good ones
+          ge.checkpoint();
+        } else {
+          var project=loadFromLocalStorage();
+          if (!project.canWrite)
+              $(".ganttButtonBar button.requireWrite").attr("disabled","true");
 
-          if (typeof(callback)=="function") {
-            callback(response);
+            ge.loadProject(project);
+            ge.checkpoint(); //empty the undo stack
           }
-        }
-      } else {
-        var project=loadFromLocalStorage();
-        if (!project.canWrite)
-            $(".ganttButtonBar button.requireWrite").attr("disabled","true");
-
-        ge.loadProject(project);
-        ge.checkpoint(); //empty the undo stack
-        return project
+      }
+    },
+    error: (response) => {
+      if (response.message) {
+        alert(response.message);
       }
     }
-  })
-
-  // $.getJSON("ganttAjaxController", {projectId:projectId}, function(response) {
+  });
+  
+  
+  // $.getJSON("ganttAjaxController", null, function(response) {
   //   //console.debug(response);
   //   if (response.success) {
   //     // prof.stop();
@@ -208,11 +209,6 @@ function loadGanttFromServer(projectId, callback) {
 
 
 function saveGanttOnServer() {
-
-  //this is a simulation: save data to the local storage or to the textarea
-  // saveInLocalStorage();
-
-  
   var prj = ge.saveProject();
 
   // delete prj.resources;
@@ -259,17 +255,10 @@ function saveGanttOnServer() {
         if (response.message) {
           errMsg=errMsg+response.message+"\n";
         }
-
-        // if (response.errorMessages.length) {
-        //   errMsg += response.errorMessages.join("\n");
-        // }
-
         alert(errMsg);
       }
     }
-
   });
-  
 }
 
 function newProject(){
