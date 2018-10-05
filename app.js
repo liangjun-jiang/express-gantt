@@ -54,7 +54,7 @@ app.get('/projects', (req, res) => {
   })
 })
 
-app.get('/ganttAjaxController', async(req, res)=>{
+app.get('/ganttAjaxController?projectId=:projectId', async(req, res)=>{
   // console.log(req.query.projectId)
   if(req.query.projectId) {
     let fileName = `${req.query.projectId}.json`
@@ -82,7 +82,6 @@ app.post('/ganttAjaxController', async(req, res) => {
     fileName = ouputFileName(OUTPUT_DIR)
   }
   fs.writeFile(fileName, req.body.prj, (err) => {  
-    // throws an error, you could also catch it here
     if (err) {
       res.status(400).send({
         success: true,
