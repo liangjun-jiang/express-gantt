@@ -54,7 +54,7 @@ app.get('/projects', (req, res) => {
   })
 })
 
-app.get('/ganttAjaxController?projectId=:projectId', async(req, res)=>{
+app.get('/ganttAjaxController', async(req, res)=>{
   // console.log(req.query.projectId)
   if(req.query.projectId) {
     let fileName = `${req.query.projectId}.json`

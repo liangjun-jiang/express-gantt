@@ -156,30 +156,54 @@ function loadGanttFromServer(projectId, callback) {
   //var taskId = $("#taskSelector").val();
   // var prof = new Profiler("loadServerSide");
   // prof.reset();
+  $.ajax("ganttAjaxController", {
+    dataType:"json",
+    data: {projectId:projectId},
+    type:"GET",
 
-  $.getJSON("ganttAjaxController", {projectId:projectId}, function(response) {
-    //console.debug(response);
-    if (response.success) {
-      // prof.stop();
+    success: function(response) {
+      if (response.success) {
+        // prof.stop();
+        if (response.project) {
+          ge.loadProject(response.project);
+          ge.checkpoint(); //empty the undo stack
 
-      ge.loadProject(response.project);
-      ge.checkpoint(); //empty the undo stack
+          if (typeof(callback)=="function") {
+            callback(response);
+          }
+        }
+      } else {
+        var project=loadFromLocalStorage();
+        if (!project.canWrite)
+            $(".ganttButtonBar button.requireWrite").attr("disabled","true");
 
-      if (typeof(callback)=="function") {
-        callback(response);
+        ge.loadProject(project);
+        ge.checkpoint(); //empty the undo stack
+        return project
       }
-    } else {
-      var project=loadFromLocalStorage();
-      if (!project.canWrite)
-          $(".ganttButtonBar button.requireWrite").attr("disabled","true");
-
-      ge.loadProject(project);
-      ge.checkpoint(); //empty the undo stack
     }
-  });
-  
+  })
 
-  // return ret;
+  // $.getJSON("ganttAjaxController", {projectId:projectId}, function(response) {
+  //   //console.debug(response);
+  //   if (response.success) {
+  //     // prof.stop();
+
+  //     ge.loadProject(response.project);
+  //     ge.checkpoint(); //empty the undo stack
+
+  //     if (typeof(callback)=="function") {
+  //       callback(response);
+  //     }
+  //   } else {
+  //     var project=loadFromLocalStorage();
+  //     if (!project.canWrite)
+  //         $(".ganttButtonBar button.requireWrite").attr("disabled","true");
+
+  //     ge.loadProject(project);
+  //     ge.checkpoint(); //empty the undo stack
+  //   }
+  // });
 }
 
 
