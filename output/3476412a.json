@@ -1,13 +1,10 @@
 {
   "tasks": [{
     "id": -1,
-    "name": "整修房子",
+    "name": "系分阶段",
     "progress": 0,
     "progressByWorklog": false,
-    "relevance": 0,
-    "type": "",
-    "typeId": "",
-    "description": "",
+    "description": "总体的系分阶段的任务",
     "code": "",
     "level": 0,
     "status": "STATUS_ACTIVE",
@@ -26,12 +23,9 @@
     "hasChild": true
   }, {
     "id": -2,
-    "name": "询价",
+    "name": "GN系分",
     "progress": 0,
     "progressByWorklog": false,
-    "relevance": 0,
-    "type": "",
-    "typeId": "",
     "description": "",
     "code": "",
     "level": 1,
@@ -47,11 +41,16 @@
     "canAdd": true,
     "canDelete": true,
     "canAddIssue": true,
-    "assigs": [],
+    "assigs": [{
+      "id": "tmp_1538715907068_1",
+      "resourceId": "tmp_1",
+      "roleId": "tmp_2",
+      "effort": 0
+    }],
     "hasChild": true
   }, {
     "id": -3,
-    "name": "gantt part",
+    "name": "收单转接系分",
     "progress": 0,
     "progressByWorklog": false,
     "relevance": 0,
@@ -76,7 +75,7 @@
     "hasChild": false
   }, {
     "id": -4,
-    "name": "editor part",
+    "name": "支付转接系分",
     "progress": 0,
     "progressByWorklog": false,
     "relevance": 0,
@@ -101,12 +100,9 @@
     "hasChild": false
   }, {
     "id": -5,
-    "name": "施工",
+    "name": "iPay系分",
     "progress": 0,
     "progressByWorklog": false,
-    "relevance": 0,
-    "type": "",
-    "typeId": "",
     "description": "",
     "code": "",
     "level": 1,
@@ -122,16 +118,18 @@
     "canAdd": true,
     "canDelete": true,
     "canAddIssue": true,
-    "assigs": [],
+    "assigs": [{
+      "id": "tmp_1538715927346_1",
+      "resourceId": "tmp_2",
+      "roleId": "tmp_1",
+      "effort": 108000000
+    }],
     "hasChild": true
   }, {
     "id": -6,
-    "name": "test on safari",
+    "name": "iPay OAuth系分",
     "progress": 0,
     "progressByWorklog": false,
-    "relevance": 0,
-    "type": "",
-    "typeId": "",
     "description": "",
     "code": "",
     "level": 2,
@@ -147,36 +145,16 @@
     "canAdd": true,
     "canDelete": true,
     "canAddIssue": true,
-    "assigs": [],
-    "hasChild": false
-  }, {
-    "id": -8,
-    "name": "test on chrome",
-    "progress": 0,
-    "progressByWorklog": false,
-    "relevance": 0,
-    "type": "",
-    "typeId": "",
-    "description": "",
-    "code": "",
-    "level": 2,
-    "status": "STATUS_SUSPENDED",
-    "depends": "6",
-    "start": 1541055600000,
-    "duration": 2,
-    "end": 1541228399999,
-    "startIsMilestone": false,
-    "endIsMilestone": false,
-    "collapsed": false,
-    "canWrite": true,
-    "canAdd": true,
-    "canDelete": true,
-    "canAddIssue": true,
-    "assigs": [],
+    "assigs": [{
+      "id": "tmp_1538715944482_1",
+      "resourceId": "tmp_3",
+      "roleId": "tmp_2",
+      "effort": 72000000
+    }],
     "hasChild": false
   }, {
     "id": -7,
-    "name": "test on ie",
+    "name": "iPay 支付系分",
     "progress": 0,
     "progressByWorklog": false,
     "relevance": 0,
@@ -199,36 +177,35 @@
     "canAddIssue": true,
     "assigs": [],
     "hasChild": false
+  }, {
+    "id": -8,
+    "name": "账务系分",
+    "progress": 0,
+    "progressByWorklog": false,
+    "description": "",
+    "code": "",
+    "level": 1,
+    "status": "STATUS_SUSPENDED",
+    "depends": "6",
+    "start": 1541055600000,
+    "duration": 2,
+    "end": 1541228399999,
+    "startIsMilestone": false,
+    "endIsMilestone": false,
+    "collapsed": false,
+    "canWrite": true,
+    "canAdd": true,
+    "canDelete": true,
+    "canAddIssue": true,
+    "assigs": [{
+      "id": "tmp_1538715966016_1",
+      "resourceId": "tmp_4",
+      "roleId": "tmp_2",
+      "effort": 0
+    }],
+    "hasChild": false
   }],
-  "selectedRow": 6,
+  "selectedRow": 7,
   "deletedTaskIds": [],
-  "resources": [{
-    "id": "tmp_1",
-    "name": "Resource 1"
-  }, {
-    "id": "tmp_2",
-    "name": "Resource 2"
-  }, {
-    "id": "tmp_3",
-    "name": "Resource 3"
-  }, {
-    "id": "tmp_4",
-    "name": "Resource 4"
-  }],
-  "roles": [{
-    "id": "tmp_1",
-    "name": "Project Manager"
-  }, {
-    "id": "tmp_2",
-    "name": "Worker"
-  }, {
-    "id": "tmp_3",
-    "name": "Stakeholder"
-  }, {
-    "id": "tmp_4",
-    "name": "Customer"
-  }],
-  "canWrite": true,
-  "canWriteOnParent": true,
   "zoom": "1M"
 }

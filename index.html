@@ -183,28 +183,6 @@ function loadGanttFromServer(projectId, callback) {
       }
     }
   });
-  
-  
-  // $.getJSON("ganttAjaxController", null, function(response) {
-  //   //console.debug(response);
-  //   if (response.success) {
-  //     // prof.stop();
-
-  //     ge.loadProject(response.project);
-  //     ge.checkpoint(); //empty the undo stack
-
-  //     if (typeof(callback)=="function") {
-  //       callback(response);
-  //     }
-  //   } else {
-  //     var project=loadFromLocalStorage();
-  //     if (!project.canWrite)
-  //         $(".ganttButtonBar button.requireWrite").attr("disabled","true");
-
-  //     ge.loadProject(project);
-  //     ge.checkpoint(); //empty the undo stack
-  //   }
-  // });
 }
 
 

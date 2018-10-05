@@ -55,12 +55,12 @@ app.get('/projects', (req, res) => {
 })
 
 app.post('/tasks', (req, res)=>{
-  console.log(req.body)
   if(req.body.projectId) {
-    let fileName = `${req.query.projectId}.json`
+    let fileName = `${req.body.projectId}.json`
     try {
+      console.log(`${OUTPUT_DIR}/${fileName}`)
       if (fs.existsSync(`${OUTPUT_DIR}/${fileName}`)) {
-        let project = fs.readFileSync(); 
+        let project = fs.readFileSync(`${OUTPUT_DIR}/${fileName}`); 
         if (project) { 
           res.status(200).send({
             success: true,
