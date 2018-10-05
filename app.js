@@ -54,16 +54,25 @@ app.get('/projects', (req, res) => {
   })
 })
 
-app.get('/ganttAjaxController', async(req, res)=>{
-  // console.log(req.query.projectId)
+app.get('/ganttAjaxController', (req, res)=>{
   if(req.query.projectId) {
-    let fileName = `${req.query.projectId}.json`
+    let fileName = `${req.body.projectId}.json`
     try {
-      let project = fs.readFileSync(`${OUTPUT_DIR}/${fileName}`);  
-      res.status(200).send({
-        success: true,
-        project: JSON.parse(project)
-      })
+      if (fs.existsSync(`${OUTPUT_DIR}/${fileName}`)) {
+        let project = fs.readFileSync(); 
+        console.log(project)
+        if (project) { 
+          res.status(200).send({
+            success: true,
+            project: JSON.parse(project)
+          })
+        }
+      } else {
+        res.status(400).send({
+          success: false,
+          message: `create a new file`
+        })
+      }
     } catch (e) {
       res.status(400).send({
         success: false,
