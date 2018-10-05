@@ -10,11 +10,15 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   
     <script type="text/javascript">
-        function openForm(projectId) {
+        function openForm(project) {
             document.getElementById("myForm").style.display = "block";
+            if (project) {
+                $('input[name="project_name"]').val(project.project_name);
+                $('textarea[name="project_description"]').val(project.project_description);
+            }
         }
 
-        function closeForm(projectId) {
+        function closeForm(project) {
             document.getElementById("myForm").style.display = "none";
         }
         
@@ -23,15 +27,15 @@
         }
 
         function exportProject(projectId){
-            // alert('export project')
-            $.ajax("export", {
-                dataType:"json",
-                data: {'projectId':projectId},
-                type:"POST",
-                success: function(response) {
-                   location.replace(`./export.html?projectId=${response.project.id}`)
-                }
-            })
+            alert('feature not available yet')
+            // $.ajax("export", {
+            //     dataType:"json",
+            //     data: {'projectId':projectId},
+            //     type:"POST",
+            //     success: function(response) {
+            //        location.replace(`./export.html?projectId=${response.project.id}`)
+            //     }
+            // })
             return false;
         }
 
@@ -72,9 +76,9 @@
                             $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id+'">' + project.project_name +'</a></h1>')
                         );
                         section.append($('<a id="edit-project-status" class="post-category post-category-design" href="#">Ongoing</a>'))
-                        $("#edit-project-status").on("click", ()=>{editProject(project.id)});
+                        $("#edit-project-status").on("click", ()=>{editProject(project)});
                         section.append($('<a id="edit-project" class="post-category post-category-pure" href="#">Edit</a>'))
-                        $("#edit-project").on("click",()=>{editProject(project.id)});
+                        $("#edit-project").on("click",()=>{editProject(project)});
                         section.append($('<a id="export-project" class="post-category post-category-yui" href="#">Export Data</a>'))
                         $("#export-project").on("click", ()=>{exportProject(project.id)});
                         section.append($('<a id="delete-project" class="post-category post-category-js" href="#">Delete</a>'))
@@ -128,7 +132,7 @@
 
     <div class="form-popup" id="myForm" >
         <form id="projectForm" action="" method="POST" class="form-container" target="_blank" onsubmit="return submitForm(this)">
-        <h1>New Project</h1>
+        <h1>Project</h1>
     
         <label for="project-name"><b>Project Name</b></label>
         <input type="text" placeholder="Enter a project name" name="project_name" required>
