@@ -169,7 +169,12 @@ function loadGanttFromServer(projectId, callback) {
         callback(response);
       }
     } else {
-      jsonErrorHandling(response);
+      var project=loadFromLocalStorage();
+      if (!project.canWrite)
+          $(".ganttButtonBar button.requireWrite").attr("disabled","true");
+
+      ge.loadProject(project);
+      ge.checkpoint(); //empty the undo stack
     }
   });
   
@@ -198,9 +203,7 @@ function saveGanttOnServer() {
     }
   }
 
-  let data = {
-
-  }
+  let data = {}
   if (window.location.href.indexOf("?projectId=") != -1){
     let urlParams = new URLSearchParams(window.location.search);
     let projectId = urlParams.get('projectId');

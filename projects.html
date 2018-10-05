@@ -18,24 +18,36 @@
             document.getElementById("myForm").style.display = "none";
         }
 
-      $(function() {
-        $.getJSON("projects", null, function(response) {
-          if (response.success) {
-            const section = $('<section class="post">').appendTo('.posts');
-            const projects = response.projects;
-            $(projects).each(function(index, project) {
-                section.append(
-                    $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id.slice(0, -5)+'">' + project.project_name +'</a></h1>')
-                );
-                section.append($('</header>'))
-                section.append(
-                    $('<div class="post-description">').html('<p> '+ project.project_description +'</p>')
-                );
-                section.append($('</div>'))
-            });
-            $('</section>').appendTo('.posts');
-          }
-        })
+        function submitForm(formId) {
+            $.ajax("project", {
+                dataType:"json",
+                data: $(formId).serialize(),
+                type:"POST",
+                success: function(response) {
+                   location.replace(`./index.html?projectId=${response.project.id}`)
+                }
+            })
+            return false;
+        }
+
+        $(function() {
+            $.getJSON("projects", null, function(response) {
+                if (response.success) {
+                    const section = $('<section class="post">').appendTo('.posts');
+                    const projects = response.projects;
+                    $(projects).each(function(index, project) {
+                        section.append(
+                            $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id+'">' + project.project_name +'</a></h1>')
+                        );
+                        section.append($('</header>'))
+                        section.append(
+                            $('<div class="post-description">').html('<p> '+ project.project_description +'</p>')
+                        );
+                        section.append($('</div>'))
+                    });
+                    $('</section>').appendTo('.posts');
+                }
+            })
       })
     </script>
   </head>
@@ -43,7 +55,7 @@
     <nav>
       <a id="logo" href="#"></a>
       <a onclick="openForm()">Create New Project</a>
-      <a href="tutorial.html">Tutorial</a>  
+      <a href="./tutorial.html">Tutorial</a>  
     </nav>
 
     <div id="layout" class="pure-g">
@@ -64,7 +76,7 @@
                 <div class="pure-menu pure-menu-horizontal">
                     <ul>
                         <li class="pure-menu-item"><a href="about.html" class="pure-menu-link">About</a></li>
-                        <li class="pure-menu-item"><a href="http://github.com/pure-css/pure/" class="pure-menu-link">GitLab</a></li>
+                        <li class="pure-menu-item"><a href="#" class="pure-menu-link">GitLab</a></li>
                     </ul>
                 </div>
             </div>
@@ -72,8 +84,8 @@
     </div>
   </div>
 
-    <div class="form-popup" id="myForm">
-        <form action="/project" method="POST" class="form-container">
+    <div class="form-popup" id="myForm" >
+        <form id="projectForm" action="" method="POST" class="form-container" target="_blank" onsubmit="return submitForm(this)">
         <h1>New Project</h1>
     
         <label for="project-name"><b>Project Name</b></label>

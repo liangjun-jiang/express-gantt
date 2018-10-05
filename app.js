@@ -29,14 +29,19 @@ app.get('/projects.html', (req, res) => {
 app.post('/project', (req, res) => {
   let fileName = randomFileName()
   let projectName = `${PROJECT_DIR}/${fileName}`
-  fs.writeFile(projectName, JSON.stringify(req.body), (err) => {  
+  let data = req.body;
+  data['id'] = fileName.slice(0, -5);
+  fs.writeFile(projectName, JSON.stringify(data), (err) => {  
     if (err) {
       res.status(400).send({
         success: true,
         message: 'Error happened while saving'
       })
     } else {
-      res.status(200).sendFile(path.join(__dirname, 'index.html'));
+      res.status(200).send({
+        success: true,
+        project: data
+      })
     }
   });
 })
@@ -74,7 +79,7 @@ app.post('/ganttAjaxController', async(req, res) => {
   if(req.body.projectId) {
     fileName = `${OUTPUT_DIR}/${req.body.projectId}.json`
   } else {
-    fileName = ouputFileName()
+    fileName = ouputFileName(OUTPUT_DIR)
   }
   fs.writeFile(fileName, req.body.prj, (err) => {  
     // throws an error, you could also catch it here
@@ -92,7 +97,7 @@ app.post('/ganttAjaxController', async(req, res) => {
   });
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`app listening on port ${port}!`))
 
 //
 function ouputFileName(dir) {
@@ -136,7 +141,6 @@ function readProjectList(dir) {
     try {
       let jsonString = fs.readFileSync(`${dir}/${file}`);
       let json = JSON.parse(jsonString)
-      json['id'] = file
       elements.push(json);
     } catch (e) {
       throw e;
