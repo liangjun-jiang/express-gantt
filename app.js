@@ -161,7 +161,7 @@ function projectFileList(dir) {
       };
     })
     .sort(function (a, b) {
-      return a.time - b.time; })
+      return b.time - a.time; })
     .map(function (v) {
       return v.name; }
     );

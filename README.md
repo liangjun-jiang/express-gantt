@@ -1,8 +1,7 @@
-jQueryGantt
+Alipay Intl. Gantt Plot Project
 ===========
-jQuery Gantt editor has been written by Roberto Bicchierai and Silvia Chelazzi
 
-<img src="http://twproject.s3.amazonaws.com/resources/gantt_github2.jpg" alt="Twproject jQuery Gantt" border="0" />
+Based on [jQuery Gannt editor](https://github.com/robicch/jQueryGantt), Alipayl Intl. Gantt Plot project has added some server-side related features.
 
 These are some key features:
 * jQuery based 3.2
@@ -22,16 +21,5 @@ These are some key features:
 * critical path
 * milestones, progress etc.
 * zoom
-
-Try the online working demo here: https://gantt.twproject.com
-
-Read here about latest release: https://roberto.open-lab.com/2017/04/05/new-gantt-editor-release-the-best-ever/
-
-Read the genesis of this component here: http://roberto.open-lab.com/2012/06/14/the-javascript-gantt-odyssey/
-
-Documentation is here: http://roberto.open-lab.com/2012/08/24/jquery-gantt-editor/
-
-jQuery Gantt editor is part of <a href="https://twproject.com">Twproject 6</a> project
-
 
 

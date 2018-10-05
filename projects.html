@@ -39,6 +39,7 @@
                         section.append(
                             $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id+'">' + project.project_name +'</a></h1>')
                         );
+                        section.append($('<a class="post-category post-category-design" href="#">Ongoing</a> <a class="post-category post-category-pure" href="#">Edit</a> <a class="post-category post-category-js" href="#">Delete</a>'))
                         section.append($('</header>'))
                         section.append(
                             $('<div class="post-description">').html('<p> '+ project.project_description +'</p>')
