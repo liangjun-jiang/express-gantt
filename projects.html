@@ -17,7 +17,17 @@
         function closeForm() {
             document.getElementById("myForm").style.display = "none";
         }
-
+        function exportData(projectId){
+            $.ajax("export", {
+                dataType:"json",
+                data: {'projectId':projectId},
+                type:"POST",
+                success: function(response) {
+                   location.replace(`./export.html?projectId=${response.project.id}`)
+                }
+            })
+            return false;
+        }
         function submitForm(formId) {
             $.ajax("project", {
                 dataType:"json",
@@ -39,7 +49,7 @@
                         section.append(
                             $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id+'">' + project.project_name +'</a></h1>')
                         );
-                        section.append($('<a class="post-category post-category-design" href="#">Ongoing</a> <a class="post-category post-category-pure" href="#">Edit</a> <a class="post-category post-category-js" href="#">Delete</a>'))
+                        section.append($('<a class="post-category post-category-design" href="#">Ongoing</a> <a class="post-category post-category-pure" href="#">Edit</a> <a class="post-category post-category-yui" href="#">Export Data</a> <a class="post-category post-category-js" href="#">Delete</a> '))
                         section.append($('</header>'))
                         section.append(
                             $('<div class="post-description">').html('<p> '+ project.project_description +'</p>')
@@ -57,7 +67,8 @@
       <a id="logo" href="#"></a>
       <a href="./projects.html">Home</a>
       <a onclick="openForm()">Create New Project</a>
-      <a href="./tutorial.html">Tutorial</a>  
+      <a href="./tutorial.html">Tutorial</a> 
+      <a href="./about.html">About</a>  
     </nav>
 
     <div id="layout" class="pure-g">
