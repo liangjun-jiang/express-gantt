@@ -10,14 +10,20 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   
     <script type="text/javascript">
-        function openForm() {
+        function openForm(projectId) {
             document.getElementById("myForm").style.display = "block";
         }
 
-        function closeForm() {
+        function closeForm(projectId) {
             document.getElementById("myForm").style.display = "none";
         }
-        function exportData(projectId){
+        
+        function editProject(projectId){
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function exportProject(projectId){
+            alert('export project')
             $.ajax("export", {
                 dataType:"json",
                 data: {'projectId':projectId},
@@ -28,6 +34,22 @@
             })
             return false;
         }
+
+        function deleteProject(projectId){
+            alert('export project')
+          
+            $.ajax("delete", {
+                dataType:"json",
+                data: {'projectId':projectId},
+                type:"POST",
+                success: function(response) {
+                   alert('Deleted successfully');
+                   location.reload(); 
+                }
+            })
+            return false;
+        }
+
         function submitForm(formId) {
             $.ajax("project", {
                 dataType:"json",
@@ -49,7 +71,7 @@
                         section.append(
                             $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id+'">' + project.project_name +'</a></h1>')
                         );
-                        section.append($('<a class="post-category post-category-design" href="#">Ongoing</a> <a class="post-category post-category-pure" href="#">Edit</a> <a class="post-category post-category-yui" href="#">Export Data</a> <a class="post-category post-category-js" href="#">Delete</a> '))
+                        section.append($('<a class="post-category post-category-design" onclick="editProject(projectId)" href="#">Ongoing</a> <a class="post-category post-category-pure" onclick="editProject(projectId">Edit</a> <a class="post-category post-category-yui" onclick="exportProject(projectId)" href="#">Export Data</a> <a class="post-category post-category-js" onclick="deleteProject(projectId)" href="#">Delete</a> '))
                         section.append($('</header>'))
                         section.append(
                             $('<div class="post-description">').html('<p> '+ project.project_description +'</p>')

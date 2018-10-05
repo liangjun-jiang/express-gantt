@@ -54,6 +54,33 @@ app.get('/projects', (req, res) => {
   })
 })
 
+app.post('/delete', (req, res) =>{
+  if(req.body.projectId) {
+    let fileName = `${req.body.projectId}.json`;
+    let taskFileName = `${OUTPUT_DIR}/${fileName}`;
+    let projectFileName =  `${PROJECT_DIR}/${fileName}`;
+    try {
+      if (fs.existsSync(taskFileName) && fs.existsSync(projectFileName)) {
+         fs.unlinkSync(taskFileName); 
+         fs.unlinkSync(projectFileName); 
+        res.status(200).send({
+          success: true,
+        })
+      } else {
+        res.status(200).send({
+          success: true,
+          message: `No file existed`
+        })
+      }
+    } catch (e) {
+      res.status(400).send({
+        success: false,
+        message: `Error happened while retrieving data ${JSON.stringify(e)}`
+      })
+    }
+  }
+})
+
 app.post('/tasks', (req, res)=>{
   if(req.body.projectId) {
     let fileName = `${req.body.projectId}.json`
