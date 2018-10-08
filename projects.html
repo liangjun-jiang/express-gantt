@@ -22,10 +22,7 @@
             document.getElementById("myForm").style.display = "none";
         }
         
-        function editProject(projectId){
-            document.getElementById("myForm").style.display = "block";
-        }
-
+       
         function exportProject(projectId){
             alert('feature not available yet')
             // $.ajax("export", {
@@ -47,7 +44,6 @@
                 data: {'projectId':projectId},
                 type:"POST",
                 success: function(response) {
-                   alert('Deleted successfully');
                    location.reload(); 
                 }
             })
@@ -55,14 +51,16 @@
         }
 
         function submitForm(formId) {
-            $.ajax("project", {
-                dataType:"json",
-                data: $(formId).serialize(),
-                type:"POST",
-                success: function(response) {
-                   location.replace(`./index.html?projectId=${response.project.id}`)
-                }
-            })
+            if (formId) {
+                $.ajax("project", {
+                    dataType:"json",
+                    data: $(formId).serialize(),
+                    type:"POST",
+                    success: function(response) {
+                    location.replace(`./index.html?projectId=${response.project.id}`)
+                    }
+                })
+            }
             return false;
         }
 
@@ -75,14 +73,14 @@
                         section.append(
                             $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id+'">' + project.project_name +'</a></h1>')
                         );
-                        section.append($('<a id="edit-project-status" class="post-category post-category-design" href="#">Ongoing</a>'))
-                        $("#edit-project-status").on("click", ()=>{editProject(project)});
-                        section.append($('<a id="edit-project" class="post-category post-category-pure" href="#">Edit</a>'))
-                        $("#edit-project").on("click",()=>{editProject(project)});
-                        section.append($('<a id="export-project" class="post-category post-category-yui" href="#">Export Data</a>'))
-                        $("#export-project").on("click", ()=>{exportProject(project.id)});
-                        section.append($('<a id="delete-project" class="post-category post-category-js" href="#">Delete</a>'))
-                        $("#delete-project").on("click", ()=>{deleteProject(project.id)});
+                        section.append($('<a id="edit-project-status-'+ index + '" class = "post-category post-category-design" href="#">Ongoing</a>'));
+                        $("#edit-project-status-"+index).click(()=>{openForm(project)});
+                        section.append($('<a id="edit-project-'+ index +  '" class="post-category post-category-pure" href="#">Edit</a>'))
+                        $("#edit-project-"+index).on("click",()=>{openForm(project)});
+                        section.append($('<a id="export-project-' + index + '" class="post-category post-category-yui" href="#">Export Data</a>'))
+                        $("#export-project-"+index).on("click", ()=>{exportProject(project.id)});
+                        section.append($('<a id="delete-project-' + index + '" class="post-category post-category-js" href="#">Delete</a>'))
+                        $("#delete-project-"+index).on("click", ()=>{deleteProject(project.id)});
                         section.append($('</header>'))
                         section.append(
                             $('<div class="post-description">').html('<p> '+ project.project_description +'</p>')
@@ -131,7 +129,7 @@
   </div>
 
     <div class="form-popup" id="myForm" >
-        <form id="projectForm" action="" method="POST" class="form-container" target="_blank" onsubmit="return submitForm(this)">
+        <form id="projectForm" action="" class="form-container">
         <h1>Project</h1>
     
         <label for="project-name"><b>Project Name</b></label>
@@ -140,7 +138,7 @@
         <label for="psw"><b>Project Description</b></label>
         <textarea type="text" name="project_description" required rows="9"></textarea>
     
-        <button type="submit" class="btn">Save</button>
+        <button type="submit" class="btn" onclick="submitForm(projectForm)">Save</button>
         <button type="submit" class="btn cancel" onclick="closeForm()">Cancel</button>
         </form>
   </div>
