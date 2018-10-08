@@ -60,18 +60,15 @@ app.post('/delete', (req, res) =>{
     let taskFileName = `${OUTPUT_DIR}/${fileName}`;
     let projectFileName =  `${PROJECT_DIR}/${fileName}`;
     try {
-      if (fs.existsSync(taskFileName) && fs.existsSync(projectFileName)) {
-         fs.unlinkSync(taskFileName); 
-         fs.unlinkSync(projectFileName); 
-        res.status(200).send({
-          success: true,
-        })
-      } else {
-        res.status(200).send({
-          success: true,
-          message: `No file existed`
-        })
+      if (fs.existsSync(projectFileName)){
+        fs.unlinkSync(projectFileName); 
       }
+      if (fs.existsSync(taskFileName)) {
+         fs.unlinkSync(taskFileName); 
+      }
+      res.status(200).send({
+        success: true,
+      })
     } catch (e) {
       res.status(400).send({
         success: false,

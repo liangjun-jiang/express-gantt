@@ -37,7 +37,7 @@
         }
 
         function deleteProject(projectId){
-            // alert('export project')
+            alert('delete project' + projectId)
           
             $.ajax("delete", {
                 dataType:"json",
@@ -45,6 +45,9 @@
                 type:"POST",
                 success: function(response) {
                    location.reload(); 
+                }, 
+                error: (response) => {
+                    alert(response.message)
                 }
             })
             return false;
