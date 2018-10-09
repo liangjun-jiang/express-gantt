@@ -13,7 +13,7 @@
         function openForm(project) {
             document.getElementById("myForm").style.display = "block";
             if (project) {
-                $('input[name="project_id"]').val(project.id);
+                $('input[name="project_id"]').val(project.project_id);
                 $('input[name="project_name"]').val(project.project_name);
                 $('textarea[name="project_description"]').val(project.project_description);
                 $('select[name="project_status"]').val(project.project_status);
@@ -53,10 +53,9 @@
                     type:"POST",
                     success: function(response) {
                         if ($('input[name="project_id"]').val().length > 0) {
-                            alert('Saved!')
                             location.reload()
                         } else 
-                        location.replace(`./index.html?projectId=${response.project.id}`)
+                            location.replace(`./index.html?projectId=${response.project.project_id}`)
                     }
                 })
             }
@@ -70,15 +69,15 @@
                     const projects = response.projects;
                     $(projects).each(function(index, project) {
                         section.append(
-                            $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id+'">' + project.project_name +'</a></h1>')
+                            $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.project_id+'">' + project.project_name +'</a></h1>')
                         );
                         section.append($('<a id="edit-project-status-'+ index + '" class = "post-category post-category-design">' + project.project_status +'</a>'));
                         $("#edit-project-status-"+index).click(()=>{openForm(project)});
                         section.append($('<a id="edit-project-'+ index +  '" class="post-category post-category-pure">Edit</a>'))
                         $("#edit-project-"+index).on("click",()=>{openForm(project)});
-                        section.append($('<a id="export-project-' + index + '" class="post-category post-category-yui" href="./export.html?projectId='+ project.id + '">Export Data</a>'))
+                        section.append($('<a id="export-project-' + index + '" class="post-category post-category-yui" href="./export.html?projectId='+ project.project_id + '">Export Data</a>'))
                         section.append($('<a id="delete-project-' + index + '" class="post-category post-category-js">Delete</a>'))
-                        $("#delete-project-"+index).on("click", ()=>{deleteProject(project.id)});
+                        $("#delete-project-"+index).on("click", ()=>{deleteProject(project.project_id)});
                         section.append($('</header>'))
                         section.append(
                             $('<div class="post-description">').html('<p> '+ project.project_description +'</p>')

@@ -27,10 +27,16 @@ app.get('/projects.html', (req, res) => {
 })
 
 app.post('/project', (req, res) => {
-  let fileName = randomFileName()
+  console.log(req.body)
+  let fileName = ''
+  if (req.body.project_id) {
+    fileName = `${req.body.project_id}.json`
+  } else {
+    fileName = randomFileName()
+  }
   let projectName = `${PROJECT_DIR}/${fileName}`
   let data = req.body;
-  data['id'] = fileName.slice(0, -5);
+  data['project_id'] = fileName.slice(0, -5);
   fs.writeFile(projectName, JSON.stringify(data), (err) => {  
     if (err) {
       res.status(400).send({
