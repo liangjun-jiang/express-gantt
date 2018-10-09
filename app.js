@@ -18,7 +18,7 @@ app.use('/', express.static(path.join(__dirname, '/')));
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
+app.get('', (req, res) => {
   res.sendFile(path.join(__dirname, 'projects.html'));
 })
 
