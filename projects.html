@@ -76,13 +76,13 @@
                         section.append(
                             $('<header class="post-header">').html('<h1 class="post-title"><a href="index.html?projectId='+project.id+'">' + project.project_name +'</a></h1>')
                         );
-                        section.append($('<a id="edit-project-status-'+ index + '" class = "post-category post-category-design" href="#">Ongoing</a>'));
+                        section.append($('<a id="edit-project-status-'+ index + '" class = "post-category post-category-design">' + project.project_status +'</a>'));
                         $("#edit-project-status-"+index).click(()=>{openForm(project)});
-                        section.append($('<a id="edit-project-'+ index +  '" class="post-category post-category-pure" href="#">Edit</a>'))
+                        section.append($('<a id="edit-project-'+ index +  '" class="post-category post-category-pure">Edit</a>'))
                         $("#edit-project-"+index).on("click",()=>{openForm(project)});
-                        section.append($('<a id="export-project-' + index + '" class="post-category post-category-yui" href="#">Export Data</a>'))
+                        section.append($('<a id="export-project-' + index + '" class="post-category post-category-yui">Export Data</a>'))
                         $("#export-project-"+index).on("click", ()=>{exportProject(project.id)});
-                        section.append($('<a id="delete-project-' + index + '" class="post-category post-category-js" href="#">Delete</a>'))
+                        section.append($('<a id="delete-project-' + index + '" class="post-category post-category-js">Delete</a>'))
                         $("#delete-project-"+index).on("click", ()=>{deleteProject(project.id)});
                         section.append($('</header>'))
                         section.append(
@@ -140,6 +140,14 @@
     
         <label for="psw"><b>Project Description</b></label>
         <textarea type="text" name="project_description" required rows="9"></textarea>
+        
+        <label for="project-status"><b>Project Status</b></label>
+        <select name="project_status">
+            <option value="Planning">Planning</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Finished">Finished</option>
+            <option value="Terminated">Terminated</option>
+        </select>
     
         <button type="submit" class="btn" onclick="submitForm(projectForm)">Save</button>
         <button type="submit" class="btn cancel" onclick="closeForm()">Cancel</button>
