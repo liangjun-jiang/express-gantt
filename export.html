@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        if (window.location.href.indexOf("?projectId=") != -1){
+          let urlParams = new URLSearchParams(window.location.search);
+          let projectId = urlParams.get('projectId');
+          $.getJSON("export", {projectId:projectId}, (response) => {
+            if (response.success) {
+              $('#project').html(response.project)
+              // $('#tasks').append(response.result.tasks)
+            } else {
+              $('#result').append('Nothing found')
+            }
+          })
+        }
+      })
+    </script>
+ </head>
+ <body>
+  <div id="project">
+  </div>
+  <div id="tasks">
+  </div>
+ </body>
+</html>

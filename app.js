@@ -135,28 +135,37 @@ app.get('/ganttAjaxController', (req, res)=>{
   }
 })
 
-app.post('/export', async(req, res)=> {
-  if(req.body.projectId) {
-    let fileName = `${req.body.projectId}.json`;
+app.get('/export', async(req, res)=> {
+  if(req.query.projectId) {
+    let fileName = `${req.query.projectId}.json`;
     let taskFileName = `${OUTPUT_DIR}/${fileName}`;
     let projectFileName =  `${PROJECT_DIR}/${fileName}`;
-    let output = ''
     try {
-      if (fs.existsSync(taskFileName) && fs.existsSync(projectFileName)) {
+      // if (fs.existsSync(taskFileName) && fs.existsSync(projectFileName)) {
         let taskJsonString = fs.readFileSync(taskFileName); 
         let projectJsonString = fs.readFileSync(projectFileName); 
-        output = `Project data: \n${projectJsonString}` + '\n' + `Task data: \n${taskJsonString}`
+        let project = `Project data: </br>${projectJsonString}` + '</br>' + `Task data: </br>${taskJsonString}`
         res.status(200).send({
           success: true,
-          output: output
+          project: project
         })
-      } else {
-        console.log('no file exist')
-        res.status(200).send({
-          success: true,
-          message: `Have not created a file yet`
-        })
-      }
+        // result = {
+        //   project: projectJsonString,
+        //   tasks: taskJsonString
+        // }
+        // console.log(result)
+        // res.status(200).send({
+        //   success: true,
+        //   result: result
+        // })
+      // }
+      //  else {
+      //   console.log('no file exist')
+      //   res.status(200).send({
+      //     success: true,
+      //     message: `Have not created a file yet`
+      //   })
+      // }
     } catch (e) {
       res.status(400).send({
         success: false,

@@ -15,6 +15,7 @@
             if (project) {
                 $('input[name="project_name"]').val(project.project_name);
                 $('textarea[name="project_description"]').val(project.project_description);
+                $('select[name="project_status"]').val(project.project_status);
             }
         }
 
@@ -24,12 +25,12 @@
         
        
         function exportProject(projectId){
-            alert('feature not available yet')
+            location.replace(`./export.html?projectId=${projectId}`)
             // $.ajax("export", {
             //     dataType:"json",
             //     data: {'projectId':projectId},
             //     type:"POST",
-            //     success: function(response) {
+            //     success: (response) => {
             //        location.replace(`./export.html?projectId=${response.project.id}`)
             //     }
             // })
@@ -37,8 +38,6 @@
         }
 
         function deleteProject(projectId){
-            alert('delete project' + projectId)
-          
             $.ajax("delete", {
                 dataType:"json",
                 data: {'projectId':projectId},
@@ -80,8 +79,7 @@
                         $("#edit-project-status-"+index).click(()=>{openForm(project)});
                         section.append($('<a id="edit-project-'+ index +  '" class="post-category post-category-pure">Edit</a>'))
                         $("#edit-project-"+index).on("click",()=>{openForm(project)});
-                        section.append($('<a id="export-project-' + index + '" class="post-category post-category-yui">Export Data</a>'))
-                        $("#export-project-"+index).on("click", ()=>{exportProject(project.id)});
+                        section.append($('<a id="export-project-' + index + '" class="post-category post-category-yui" href="./export.html?projectId='+ project.id + '">Export Data</a>'))
                         section.append($('<a id="delete-project-' + index + '" class="post-category post-category-js">Delete</a>'))
                         $("#delete-project-"+index).on("click", ()=>{deleteProject(project.id)});
                         section.append($('</header>'))
