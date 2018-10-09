@@ -26,14 +26,6 @@
        
         function exportProject(projectId){
             location.replace(`./export.html?projectId=${projectId}`)
-            // $.ajax("export", {
-            //     dataType:"json",
-            //     data: {'projectId':projectId},
-            //     type:"POST",
-            //     success: (response) => {
-            //        location.replace(`./export.html?projectId=${response.project.id}`)
-            //     }
-            // })
             return false;
         }
 
@@ -130,7 +122,7 @@
   </div>
 
     <div class="form-popup" id="myForm" >
-        <form id="projectForm" action="" class="form-container">
+        <form id="projectForm" class="form-container">
         <h1>Project</h1>
     
         <label for="project-name"><b>Project Name</b></label>
@@ -148,8 +140,9 @@
         </select>
     
         <button type="submit" class="btn" onclick="submitForm(projectForm)">Save</button>
-        <button type="submit" class="btn cancel" onclick="closeForm()">Cancel</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
         </form>
+        
   </div>
   </body>
 </html>
