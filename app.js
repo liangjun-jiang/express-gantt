@@ -18,12 +18,12 @@ app.use('/', express.static(path.join(__dirname, '/')));
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('', (req, res) => {
-  res.sendFile(path.join(__dirname, 'projects.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 })
 
-app.get('/projects.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'projects.html'));
+app.get('/index.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 })
 
 app.post('/project', (req, res) => {
